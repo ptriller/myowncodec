@@ -1,6 +1,6 @@
 @ECHO OFF
 set curr_dir=%cd%
-cd /D "E:/devel/project/eclipse/myowncodec"
+cd /D "E:/devel/project/mingw-eclipse/myowncodec"
 E:\devel\cmake-3.5.2-win32-x86\bin\cmake.exe -D "CMAKE_BUILD_TYPE:STRING=Debug"^
  -D "LibJpegTurbo_INCLUDE_DIR:PATH=E:/devel/libjpeg-turbo-gcc64/include"^
  -D "LibJpegTurbo_LIBRARY_DIR:PATH=E:/devel/libjpeg-turbo-gcc64/lib"^
