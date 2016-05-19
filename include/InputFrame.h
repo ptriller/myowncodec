@@ -15,9 +15,11 @@
 class InputFrame {
 
 public:
-	typedef const unsigned char img_data[];
 
-	InputFrame()
+	InputFrame(unsigned int width, unsigned int height,
+			   unsigned long timestamp,
+			   const unsigned char * const * const data):
+			   _width(width),_height(height), _timestamp(timestamp),_data(data) {};
 	/**
 	 * dtor.
 	 */
@@ -26,23 +28,26 @@ public:
 	 * Timestamp of the Frame in nanoseconds. SHOULD be 0 based
 	 * within a movie.
 	 */
-	virtual unsigned long timestamp() const = 0;
+	virtual unsigned long timestamp() const { return _timestamp; };
 	/**
 	 * width of the Frame. MUST be constant within a movie.
 	 */
-	virtual unsigned int width() const = 0;
+	virtual unsigned int width() const { return _width; }
 	/**
 	 * height of the Frame. MUST be constant within a movie.
 	 */
-	virtual unsigned int height() const = 0;
+	virtual unsigned int height() const { return _height; }
 	/**
 	 * Access the bitplane Data.
 	 * red has an index of 0, green 1 and blue 2.
 	 */
-	virtual const img_data& operator [](unsigned int idx) const = 0;
+	const unsigned char * const operator [](unsigned int idx) { return _data[idx]; }
 
 private:
-	const unsigned char &data[3][];
+	const unsigned int _width;
+	const unsigned int _height;
+	const unsigned long _timestamp;
+	const unsigned char * const * const _data;
 
 };
 #endif /* INPUTFRAME_H_ */

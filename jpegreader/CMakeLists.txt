@@ -9,7 +9,11 @@ file(GLOB JPEGREADER_SRCS
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc"
 )
 find_package(JPEG REQUIRED)
-# find_package(LibJpegTurbo REQUIRED)
 add_library(jpegreader ${JPEGREADER_SRCS})
+
+target_link_libraries(jpegreader ${JPEG_LIBRARIES})
+# find_package(LibJpegTurbo REQUIRED)
+target_compile_features(jpegreader PRIVATE cxx_range_for)
+target_include_directories(jpegreader PUBLIC ${JPEG_INCLUDE_DIR})
 target_include_directories(jpegreader PRIVATE ${PROJECT_INCLUDE_DIR})
 
