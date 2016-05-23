@@ -7,7 +7,7 @@
 
 #ifndef JPEGREADER_SRC_JPEGREADER_H_
 #define JPEGREADER_SRC_JPEGREADER_H_
-#include "InputFrame.h"
+#include <VideoFrame.h>
 #include <string>
 
 class JpegReader {
@@ -15,7 +15,7 @@ public:
 	JpegReader() {}
 	virtual ~JpegReader();
 
-	InputFrame *createFrame(const std::wstring &filename, unsigned long timestamp);
+	VideoFrame *createFrame(const std::string &filename, unsigned long timestamp);
 
 };
 

@@ -13,7 +13,11 @@ add_library(jpegreader ${JPEGREADER_SRCS})
 
 target_link_libraries(jpegreader ${JPEG_LIBRARIES})
 # find_package(LibJpegTurbo REQUIRED)
-target_compile_features(jpegreader PRIVATE cxx_range_for)
 target_include_directories(jpegreader PUBLIC ${JPEG_INCLUDE_DIR})
 target_include_directories(jpegreader PRIVATE ${PROJECT_INCLUDE_DIR})
+
+
+add_executable(jpeg2bmp test/jpeg2bmp.cc)
+target_include_directories(jpeg2bmp PRIVATE ${PROJECT_INCLUDE_DIR})
+target_link_libraries(jpeg2bmp jpegreader)
 

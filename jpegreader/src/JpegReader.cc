@@ -7,34 +7,53 @@
 
 #include "JpegReader.h"
 #include "jpeglib.h"
+#include <iostream>
+#include <cstdio>
+#include <cstring>
 
 JpegReader::~JpegReader() {
 
 }
 
-InputFrame * JpegReader::createFrame(const std::wstring &filename,
+VideoFrame * JpegReader::createFrame(const std::string &filename,
 		unsigned long int timestamp) {
 	struct jpeg_decompress_struct cinfo;
 	struct jpeg_error_mgr jerr;
 
 	cinfo.err = jpeg_std_error(&jerr);
-	// Yay LAMBDA !!!
 	jerr.error_exit = [](j_common_ptr cinfo) {throw cinfo->err;};
 	try {
 		jpeg_create_decompress(&cinfo);
-
-		FILE *infile = _wfopen(filename.c_str(), L"rb");
+		FILE *infile = std::fopen(filename.c_str(), "rb");
+		if(infile == NULL) {
+			std::cerr << "Unable to opein JPEG File: " << std::strerror(errno) << std::endl;
+			return NULL;
+		}
 		// TODO ERROR
 		jpeg_stdio_src(&cinfo, infile);
 		jpeg_read_header(&cinfo, TRUE);
-		cinfo.jpeg_color_space = JCS_RGB;
 		jpeg_start_decompress(&cinfo);
-
-		// scanline reading .....
+		if (cinfo.output_components != 3) {
+			throw cinfo.err;
+		}
+		unsigned int width = cinfo.output_width;
+		unsigned int height = cinfo.output_height;
+		unsigned char *bmp_buffer = new unsigned char[height * width * 3];
+		while (cinfo.output_scanline < height) {
+			unsigned char *buffer_array[1];
+			buffer_array[0] = bmp_buffer + width * cinfo.output_scanline * 3;
+			jpeg_read_scanlines(&cinfo, buffer_array, 1);
+		}
+		jpeg_finish_decompress(&cinfo);
+		fclose(infile);
+		//TODO ERROR
+		jpeg_destroy_decompress(&cinfo);
+		return new VideoFrame(width, height, timestamp, bmp_buffer);
 	} catch (struct jpeg_error_mgr *err) {
-		char pszErr[1024];
+		char pszErr[JMSG_LENGTH_MAX];
 		(cinfo.err->format_message)((j_common_ptr) &cinfo, pszErr);
+		std::cerr << "Error: " << pszErr << std::endl;
+		jpeg_destroy_decompress(&cinfo);
+		return NULL;
 	}
-	jpeg_destroy_decompress(&cinfo);
-	return NULL;
 }
