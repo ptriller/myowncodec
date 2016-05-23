@@ -15,7 +15,7 @@ JpegReader::~JpegReader() {
 
 }
 
-VideoFrame * JpegReader::createFrame(const std::string &filename,
+std::unique_ptr<VideoFrame> JpegReader::createFrame(const std::string &filename,
 		unsigned long int timestamp) {
 	struct jpeg_decompress_struct cinfo;
 	struct jpeg_error_mgr jerr;
@@ -38,17 +38,17 @@ VideoFrame * JpegReader::createFrame(const std::string &filename,
 		}
 		unsigned int width = cinfo.output_width;
 		unsigned int height = cinfo.output_height;
-		unsigned char *bmp_buffer = new unsigned char[height * width * 3];
+		std::unique_ptr<VideoFrame> frame(new VideoFrame(width, height, timestamp));
 		while (cinfo.output_scanline < height) {
 			unsigned char *buffer_array[1];
-			buffer_array[0] = bmp_buffer + width * cinfo.output_scanline * 3;
+			buffer_array[0] = frame->buffer() + width * cinfo.output_scanline * 3;
 			jpeg_read_scanlines(&cinfo, buffer_array, 1);
 		}
 		jpeg_finish_decompress(&cinfo);
 		fclose(infile);
 		//TODO ERROR
 		jpeg_destroy_decompress(&cinfo);
-		return new VideoFrame(width, height, timestamp, bmp_buffer);
+		return frame;
 	} catch (struct jpeg_error_mgr *err) {
 		char pszErr[JMSG_LENGTH_MAX];
 		(cinfo.err->format_message)((j_common_ptr) &cinfo, pszErr);

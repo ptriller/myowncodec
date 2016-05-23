@@ -20,8 +20,9 @@ public:
 	/**
 	 * YOu pass the control over the data ptr to this class and it will clean up.
 	 */
-	VideoFrame(unsigned int width, unsigned int height, unsigned long timestamp,) :
-			_width(width), _height(height), _timestamp(timestamp), _data(data) {
+	VideoFrame(unsigned int width, unsigned int height, unsigned long timestamp) :
+			_width(width), _height(height), _timestamp(timestamp) {
+		_data = new unsigned char[width * height * 3];
 	}
 	;
 	/**
@@ -66,7 +67,7 @@ public:
 	/**
 	 * get(1,1)[0] = red
 	 * get(1,1)[1] = green
-	 * get(1,1)[2] = blue
+	 * get(1,1)[2] = blueEclipse CDT4 - Unix Makefiles
 	 */
 	inline unsigned char * get(unsigned int x, unsigned int y) {
 		if (x >= _width || y >= _height) {
@@ -75,11 +76,18 @@ public:
 		return _data + 3 * (y * _width + x);
 	}
 
+	/**
+	 * Direct pointer to the internal buffer.
+	 */
+	inline unsigned char * buffer() {
+		return _data;
+	}
+
 private:
 	const unsigned int _width;
 	const unsigned int _height;
 	const unsigned long _timestamp;
-	unsigned char * const _data;
+	unsigned char * _data;
 
 };
 #endif /* INPUTFRAME_H_ */

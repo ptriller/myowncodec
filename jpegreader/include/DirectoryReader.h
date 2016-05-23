@@ -5,8 +5,8 @@
  *      Author: ptriller
  */
 
-#ifndef JPEGREADER_SRC_DIRECTORYREADER_H_
-#define JPEGREADER_SRC_DIRECTORYREADER_H_
+#ifndef DIRECTORYREADER_H_
+#define DIRECTORYREADER_H_
 
 #include <VideoStream.h>
 #include <string>
@@ -19,7 +19,7 @@ public:
 
 	virtual void close();
 
-	virtual VideoFrame *nextFrame();
+	virtual std::unique_ptr<VideoFrame> nextFrame();
 };
 
-#endif /* JPEGREADER_SRC_DIRECTORYREADER_H_ */
+#endif /* DIRECTORYREADER_H_ */

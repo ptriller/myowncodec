@@ -7,7 +7,9 @@
 
 #ifndef INPUTSTREAM_H_
 #define VIDEOSTREAM_H_
+#include <memory>
 
+class VideoFrame;
 
 class VideoStream {
 public:
@@ -15,7 +17,7 @@ public:
 
 	virtual void close() = 0;
 
-	virtual VideoFrame *nextFrame() = 0;
+	virtual std::unique_ptr<VideoFrame> nextFrame() = 0;
 
 };
 
