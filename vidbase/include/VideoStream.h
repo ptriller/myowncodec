@@ -8,10 +8,11 @@
 #ifndef INPUTSTREAM_H_
 #define VIDEOSTREAM_H_
 
+class VideoFrame;
 
 class VideoStream {
 public:
-	virtual ~VideoStream() {}
+	virtual ~VideoStream();
 
 	virtual void close() = 0;
 

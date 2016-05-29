@@ -10,6 +10,7 @@
 
 #include <VideoStream.h>
 #include <string>
+#include <map>
 
 class DirectoryReader: public VideoStream {
 public:
@@ -20,6 +21,10 @@ public:
 	virtual void close();
 
 	virtual VideoFrame *nextFrame();
+private:
+	unsigned long timestamp;
+	std::map<unsigned long, std::string> files;
+	std::map<unsigned long, std::string>::const_iterator iterator;
 };
 
 #endif /* JPEGREADER_SRC_DIRECTORYREADER_H_ */

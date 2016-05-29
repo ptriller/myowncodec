@@ -8,14 +8,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
-set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
-find_package(wxWidgets REQUIRED COMPONENTS core base)
-
-include_directories("${PROJECT_INCLUDE_DIR}")
-file(GLOB CODECGUI_SRCS
-    "${PROJECT_INCLUDE_DIR}/*.h"
-)
-
+add_subdirectory(vidbase)
 add_subdirectory(jpegreader)
 add_subdirectory(gui)
 
