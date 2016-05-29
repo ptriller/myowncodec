@@ -72,7 +72,7 @@ int main(int argc, const char * argv[]) {
 	}
 	JpegReader reader;
 	auto frame = reader.createFrame(argv[1], 0l);
-	if (frame == NULL) {
+	if (!frame) {
 		std::cerr << "Unable to load input file !" << std::endl;
 	}
 	if (writeBMP(*frame, argv[2])) {
