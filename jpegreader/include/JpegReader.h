@@ -16,7 +16,7 @@ public:
 	JpegReader() {}
 	virtual ~JpegReader();
 
-	std::unique_ptr<VideoFrame> createFrame(const std::string &filename, unsigned long timestamp);
+	VideoFrame *createFrame(const std::string &filename, unsigned long timestamp);
 
 };
 

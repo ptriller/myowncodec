@@ -15,6 +15,9 @@ private:
 	wxCriticalSection &lock;
 };
 }
+wxBEGIN_EVENT_TABLE(VideoCanvas, wxPanel)
+				EVT_PAINT(VideoCanvas::paintEvent)
+wxEND_EVENT_TABLE()
 
 VideoCanvas::VideoCanvas(wxFrame * parent) :
 		wxPanel(parent) {
