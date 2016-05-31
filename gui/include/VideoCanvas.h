@@ -16,7 +16,7 @@ public:
 private:
 	wxCriticalSection lock;
 	wxImage image;
-	wxBitmap resized;
+	std::unique_ptr<wxBitmap> resized;
 	DECLARE_EVENT_TABLE()
 
 };
