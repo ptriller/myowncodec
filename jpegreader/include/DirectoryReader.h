@@ -12,19 +12,20 @@
 #include <string>
 #include <map>
 
-class DirectoryReader: public VideoStream {
+class DirectoryReader : public VideoStream {
 public:
-	DirectoryReader(const std::string &directory);
+    DirectoryReader(const std::string &directory);
 
-	virtual ~DirectoryReader();
+    virtual ~DirectoryReader();
 
-	virtual void close();
+    virtual void close();
 
-	virtual VideoFrame *nextFrame();
+    virtual VideoFrame *nextFrame();
+
 private:
-	unsigned long timestamp;
-	std::map<unsigned long, std::string> files;
-	std::map<unsigned long, std::string>::const_iterator iterator;
+    unsigned long timestamp;
+    std::map<unsigned long, std::string> files;
+    std::map<unsigned long, std::string>::const_iterator iterator;
 };
 
 #endif /* JPEGREADER_SRC_DIRECTORYREADER_H_ */

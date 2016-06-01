@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 2.8)
-project (jpegreader)
+project(jpegreader)
 cmake_policy(SET CMP0043 NEW)
 file(GLOB JPEGREADER_SRCS
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc"
-)
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cc"
+        )
 find_package(JPEG REQUIRED)
 add_library(jpegreader ${JPEGREADER_SRCS})
 

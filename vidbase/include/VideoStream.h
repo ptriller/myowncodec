@@ -12,11 +12,11 @@ class VideoFrame;
 
 class VideoStream {
 public:
-	virtual ~VideoStream();
+    virtual ~VideoStream();
 
-	virtual void close() = 0;
+    virtual void close() = 0;
 
-	virtual VideoFrame *nextFrame() = 0;
+    virtual VideoFrame *nextFrame() = 0;
 
 };
 
