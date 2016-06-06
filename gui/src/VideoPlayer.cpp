@@ -14,6 +14,7 @@ wxBEGIN_EVENT_TABLE(VideoPlayer, wxFrame)
     EVT_BUTTON(ID_Open, VideoPlayer::OnOpen)
     EVT_BUTTON(ID_Stop, VideoPlayer::OnStop)
     EVT_BUTTON(ID_Play, VideoPlayer::OnPlay)
+    EVT_CLOSE(VideoPlayer::OnClose)
 wxEND_EVENT_TABLE()
 
 VideoPlayer::~VideoPlayer() { }
@@ -63,4 +64,8 @@ void VideoPlayer::OnStop(wxCommandEvent &event) {
     stopButton->Disable();
     playButton->Enable();
 
+}
+
+void VideoPlayer::OnClose(wxCloseEvent &event) {
+    Destroy();
 }

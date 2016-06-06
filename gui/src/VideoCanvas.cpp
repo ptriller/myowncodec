@@ -80,13 +80,13 @@ using namespace std::chrono;
 void VideoCanvas::OnTimer(wxTimerEvent &event) {
     if(!reader) {
         reader.reset(new DirectoryReader(std::string(directory)));
-        nextFrame.reset(reader->nextFrame());
+        nextFrame = reader->nextFrame();
     }
     long long int time =  duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
 
     while(time > nextFrame->timestamp()) {
         frame.reset(nextFrame.release());
-        nextFrame.reset(reader->nextFrame());
+        nextFrame = reader->nextFrame();
         if(!nextFrame) {
             StartPlaying();
             return;

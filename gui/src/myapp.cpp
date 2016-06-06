@@ -3,12 +3,12 @@
 #include "VideoCanvas.h"
 #include "DirectoryReader.h"
 #include "VideoPlayer.h"
+#include <memory>
 
 wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit() {
-    VideoPlayer *player = new VideoPlayer("Video Player");
-    player->Show(true);
+    (new VideoPlayer("Video Player"))->Show(true);
     return true;
 }
 

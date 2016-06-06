@@ -20,7 +20,7 @@ public:
 
     virtual void close();
 
-    virtual VideoFrame *nextFrame();
+    virtual std::unique_ptr<VideoFrame> nextFrame();
 
 private:
     unsigned long timestamp;

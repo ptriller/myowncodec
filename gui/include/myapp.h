@@ -5,7 +5,7 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
-
+#include <memory>
 class MyApp : public wxApp {
 public:
     virtual bool OnInit();
