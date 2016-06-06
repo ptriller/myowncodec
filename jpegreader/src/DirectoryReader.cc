@@ -68,7 +68,7 @@ void DirectoryReader::close() {
 
 VideoFrame *DirectoryReader::nextFrame() {
     if (iterator != files.end()) {
-        VideoFrame *frame = reader.createFrame(iterator->second, iterator->first * 50);
+        VideoFrame *frame = reader.createFrame(iterator->second, iterator->first);
         ++iterator;
         return frame;
     }
