@@ -18,7 +18,7 @@ JpegReader::~JpegReader() {
 }
 
 VideoFrame *JpegReader::createFrame(const std::string &filename,
-                                    unsigned long int timestamp) {
+                                    std::uint64_t timestamp) {
     struct jpeg_decompress_struct cinfo;
     struct jpeg_error_mgr jerr;
 
@@ -38,8 +38,8 @@ VideoFrame *JpegReader::createFrame(const std::string &filename,
         if (cinfo.output_components != 3) {
             throw cinfo.err;
         }
-        unsigned int width = cinfo.output_width;
-        unsigned int height = cinfo.output_height;
+        std::uint32_t width = cinfo.output_width;
+        std::uint32_t height = cinfo.output_height;
         std::unique_ptr<VideoFrame> videoFrame(new VideoFrame(width, height, timestamp));
         while (cinfo.output_scanline < height) {
             unsigned char *buffer_array[1];

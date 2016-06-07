@@ -2,6 +2,7 @@
 #include "VideoFrame.h"
 #include "DirectoryReader.h"
 #include <chrono>
+#include <cstdint>
 enum {
     TIMER_ID = wxID_HIGHEST + 100
 };
@@ -82,7 +83,7 @@ void VideoCanvas::OnTimer(wxTimerEvent &event) {
         reader.reset(new DirectoryReader(std::string(directory)));
         nextFrame = reader->nextFrame();
     }
-    long long int time =  duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
+    std::int64_t time =  duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
 
     while(time > nextFrame->timestamp()) {
         frame.reset(nextFrame.release());

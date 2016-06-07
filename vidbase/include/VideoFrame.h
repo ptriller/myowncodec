@@ -23,13 +23,13 @@ public:
     /**
      * You pass the control over the data ptr to this class and it will clean up.
      */
-    VideoFrame(unsigned int width, unsigned int height, unsigned long timestamp,
+    VideoFrame(std::uint32_t width, std::uint32_t height, std::uint64_t timestamp,
                std::vector<unsigned char> &&_data);
 
     /**
      * YOu pass the control over the data ptr to this class and it will clean up.
      */
-    VideoFrame(unsigned int width, unsigned int height, unsigned long timestamp);
+    VideoFrame(std::uint32_t width, std::uint32_t height, std::uint64_t timestamp);
 
     /**
      * dtor.
@@ -40,21 +40,21 @@ public:
      * Timestamp of the Frame in nanoseconds. SHOULD be 0 based
      * within a movie.
      */
-    inline unsigned long timestamp() const {
+    inline std::uint64_t timestamp() const {
         return _timestamp;
     };
 
     /**
      * width of the Frame. MUST be constant within a movie.
      */
-    inline unsigned int width() const {
+    inline std::uint32_t width() const {
         return _width;
     }
 
     /**
      * height of the Frame. MUST be constant within a movie.
      */
-    inline unsigned int height() const {
+    inline std::uint32_t height() const {
         return _height;
     }
 
@@ -63,7 +63,7 @@ public:
      * get(1,1)[1] = green
      * get(1,1)[2] = blue
      */
-    inline const unsigned char *get(unsigned int x, unsigned int y) const {
+    inline const unsigned char *get(std::uint32_t x, std::uint32_t y) const {
         if (x >= _width || y >= _height) {
             throw std::invalid_argument("coordinates out of bounds");
         }
@@ -75,7 +75,7 @@ public:
      * get(1,1)[1] = green
      * get(1,1)[2] = blue
      */
-    inline unsigned char *buffer(unsigned int x, unsigned int y) {
+    inline unsigned char *buffer(std::uint32_t x, std::uint32_t y) {
         if (x >= _width || y >= _height) {
             throw std::invalid_argument("coordinates out of bounds");
         }
@@ -83,9 +83,9 @@ public:
     }
 
 private:
-    const unsigned int _width;
-    const unsigned int _height;
-    const unsigned long _timestamp;
+    const std::uint32_t _width;
+    const std::uint32_t _height;
+    const std::uint64_t _timestamp;
     std::vector<unsigned char> _data;
 };
 

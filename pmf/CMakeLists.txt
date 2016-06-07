@@ -10,4 +10,5 @@ file(GLOB JPEGREADER_SRCS
 add_library(pmf ${JPEGREADER_SRCS})
 
 target_include_directories(pmf PUBLIC ${PROJECT_INCLUDE_DIR})
+target_link_libraries(pmf vidbase)
 

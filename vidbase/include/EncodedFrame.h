@@ -9,23 +9,24 @@
 #define INCLUDE_ENCODEDFRAME_H_
 
 #include<vector>
-
+#include <cstdint>
+#include <cstdint>
 class EncodedFrame {
 public:
-    EncodedFrame(unsigned int frameType, unsigned long timestamp,
+    EncodedFrame(std::uint32_t frameType, std::uint64_t timestamp,
                  std::vector<unsigned char> &&data);
 
     virtual ~EncodedFrame();
 
-    const unsigned int frameType() const { return _frameType; }
+    const std::uint32_t frameType() const { return _frameType; }
 
-    const unsigned long timestamp() const { return _timestamp; }
+    const std::uint64_t timestamp() const { return _timestamp; }
 
     const std::vector<unsigned char> &data() const { return _data; }
 
 private:
-    unsigned int _frameType;
-    unsigned long _timestamp;
+    std::uint32_t _frameType;
+    std::uint64_t _timestamp;
     std::vector<unsigned char> _data;
 };
 

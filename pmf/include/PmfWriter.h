@@ -9,18 +9,26 @@
 #include <fstream>
 #include <string>
 
+class EncodedFrame;
+
 class PmfWriter {
 
 public:
     PmfWriter();
     PmfWriter(const std::string &file);
 
-    void Open();
+    void Open() { Open(filename); };
+
+    void Open(const std::string &fname);
+
+    void Close();
+
+    void WriteFrame(const EncodedFrame &);
 
     virtual ~PmfWriter();
 
 private:
-    std::ofstream filestream;
+    std::filebuf filestream;
     const std::string filename;
 };
 

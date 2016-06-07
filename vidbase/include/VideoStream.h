@@ -15,7 +15,7 @@ class VideoStream {
 public:
     virtual ~VideoStream();
 
-    virtual void close() = 0;
+    virtual void Close() = 0;
 
     virtual std::unique_ptr<VideoFrame> nextFrame() = 0;
 

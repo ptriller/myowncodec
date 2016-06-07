@@ -62,7 +62,7 @@ DirectoryReader::DirectoryReader(const std::string &directory) :
 DirectoryReader::~DirectoryReader() {
 }
 
-void DirectoryReader::close() {
+void DirectoryReader::Close() {
     iterator = files.end();
 }
 

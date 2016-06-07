@@ -18,7 +18,7 @@ public:
 
     virtual ~DirectoryReader();
 
-    virtual void close();
+    virtual void Close();
 
     virtual std::unique_ptr<VideoFrame> nextFrame();
 
