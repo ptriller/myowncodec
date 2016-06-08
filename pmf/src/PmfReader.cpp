@@ -17,6 +17,7 @@ void PmfReader::Open() {
 
 void PmfReader::Open(const std::string &filename) {
     filestream.open(filename, std::ios::binary | std::ios::in);
+
 }
 
 

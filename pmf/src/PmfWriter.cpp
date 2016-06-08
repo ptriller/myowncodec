@@ -13,9 +13,9 @@
 
 namespace {
     std::string MAGIC("PMFDATA");
-    uint8_t VERSION_MAJOR = 1;
-    uint8_t VERSION_MINOR = 0;
-    uint64_t MAGIC_FRAME = 0xc5823fc96c68f9ab;
+    std::uint8_t VERSION_MAJOR = 1;
+    std::uint8_t VERSION_MINOR = 0;
+    std::uint64_t MAGIC_FRAME = 0xc5823fc96c68f9ab;
 }
 
 PmfWriter::PmfWriter() {
@@ -31,7 +31,7 @@ void PmfWriter::Open(const std::string &fname) {
         throw 1;
     }
     //Write Magic Header
-    std::for_each(MAGIC.begin(), MAGIC.end(),std::bind(&std::streambuf::sputc, &filestream, std::placeholders::_1));
+    for(char c: MAGIC) filestream.sputc(c);
     //Write Version Bytes.
     filestream.sputc(VERSION_MAJOR);
     filestream.sputc(VERSION_MINOR);
@@ -49,7 +49,7 @@ void PmfWriter::WriteFrame(const EncodedFrame &frame) {
     write_stream(filestream, frame.timestamp());
     write_stream(filestream, frame.frameType());
     write_stream(filestream, (std::uint32_t) frame.data().size());
-    for(auto c: frame.data()) filestream.sputc(c);
+    for(unsigned char c: frame.data()) filestream.sputc(c);
 }
 PmfWriter::~PmfWriter() {
     Close();

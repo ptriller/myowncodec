@@ -8,47 +8,22 @@
 #include <cstdint>
 #include <fstream>
 
-inline void write_stream(std::streambuf &out, std::uint64_t value) {
-    for(int i = 0; i < 8; ++i) {
-        out.sputc((unsigned char)(value & 0x00000000000000FF));
+
+template <typename T>
+void write_stream(std::streambuf &out, T value) {
+    for(int i = 0; i < sizeof(T); ++i) {
+        out.sputc((unsigned char) (value & 0x00FF));
         value >>= 8;
     }
 }
 
-inline void write_stream(std::streambuf &out, std::uint32_t value) {
-    for(int i = 0; i < 4; ++i) {
-        out.sputc((unsigned char)(value & 0x000000FF));
-        value >>= 8;
+template <typename T>
+T read_stream(std::streambuf &in) {
+    T result = 0;
+    for(int i = 0; i < sizeof(T); ++i) {
+        result |= static_cast<std::int16_t >(in.sgetc()) << i*8;
     }
-}
-
-inline void write_stream(std::streambuf &out, std::uint16_t value) {
-    for(int i = 0; i < 2; ++i) {
-        out.sputc((unsigned char)(value & 0x00FF));
-        value >>= 8;
-    }
-}
-
-
-inline void write_stream(std::streambuf &out, std::int64_t value) {
-    for(int i = 0; i < 8; ++i) {
-        out.sputc((unsigned char)(value & 0x00000000000000FF));
-        value >>= 8;
-    }
-}
-
-inline void write_stream(std::streambuf &out, std::int32_t value) {
-    for(int i = 0; i < 4; ++i) {
-        out.sputc((unsigned char)(value & 0x000000FF));
-        value >>= 8;
-    }
-}
-
-inline void write_stream(std::streambuf &out, std::int16_t value) {
-    for(int i = 0; i < 2; ++i) {
-        out.sputc((unsigned char)(value & 0x00FF));
-        value >>= 8;
-    }
-}
+    return result;
+};
 
 #endif //MYOWNCODEC_NETUTIL_H
