@@ -3,7 +3,7 @@
 #include "VideoStream.h"
 #include "base.h"
 
-EncodedFrame::EncodedFrame(unsigned int frameType, unsigned long timestamp,
+EncodedFrame::EncodedFrame(std::uint32_t frameType, std::uint64_t timestamp,
                            std::vector<unsigned char> &&data) :
         _frameType(frameType), _timestamp(timestamp), _data(data) {
 }
@@ -16,7 +16,7 @@ EncodedFrame::~EncodedFrame() {
 /**
  * You pass the control over the data ptr to this class and it will clean up.
  */
-VideoFrame::VideoFrame(unsigned int width, unsigned int height, unsigned long timestamp,
+VideoFrame::VideoFrame(std::uint32_t width, std::uint32_t height, std::uint64_t timestamp,
                        std::vector<unsigned char> &&_data) :
         _width(width), _height(height), _timestamp(timestamp), _data(_data) {
     if (_data.size() != _width * _height * 3) {
@@ -27,7 +27,7 @@ VideoFrame::VideoFrame(unsigned int width, unsigned int height, unsigned long ti
 /**
  * YOu pass the control over the data ptr to this class and it will clean up.
  */
-VideoFrame::VideoFrame(unsigned int width, unsigned int height, unsigned long timestamp) :
+VideoFrame::VideoFrame(std::uint32_t width, std::uint32_t height, std::uint64_t timestamp) :
         _width(width), _height(height), _timestamp(timestamp), _data(
         width * height * 3) {
 };

@@ -32,7 +32,6 @@ void PmfWriter::Open(const std::string &fname) {
     }
     //Write Magic Header
     std::for_each(MAGIC.begin(), MAGIC.end(),std::bind(&std::streambuf::sputc, &filestream, std::placeholders::_1));
-//    std::for_each(MAGIC.begin(), MAGIC.end(),[this](const char c) { filestream.sputc(c); });
     //Write Version Bytes.
     filestream.sputc(VERSION_MAJOR);
     filestream.sputc(VERSION_MINOR);
@@ -50,7 +49,7 @@ void PmfWriter::WriteFrame(const EncodedFrame &frame) {
     write_stream(filestream, frame.timestamp());
     write_stream(filestream, frame.frameType());
     write_stream(filestream, (std::uint32_t) frame.data().size());
-    std::for_each(frame.data().begin(), frame.data().end(),[this](auto c) { filestream.sputc(c); });
+    for(auto c: frame.data()) filestream.sputc(c);
 }
 PmfWriter::~PmfWriter() {
     Close();

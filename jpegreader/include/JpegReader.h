@@ -19,7 +19,7 @@ public:
 
     virtual ~JpegReader();
 
-    VideoFrame *createFrame(const std::string &filename, unsigned long timestamp);
+    VideoFrame *createFrame(const std::string &filename, std::uint64_t timestamp);
 
 };
 

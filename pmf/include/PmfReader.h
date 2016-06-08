@@ -17,7 +17,6 @@ public:
     void Open();
     void Close();
 
-    EncodedFrame
 private:
     std::ifstream filestream;
     const std::string filename;
