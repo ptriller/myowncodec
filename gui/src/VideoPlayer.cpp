@@ -42,7 +42,7 @@ VideoPlayer::VideoPlayer(const wxString &title, const wxPoint &pos, const wxSize
     CreateStatusBar();
 }
 
-void VideoPlayer::OnOpen(wxCommandEvent &event) {
+void VideoPlayer::OnOpen(wxCommandEvent &) {
     wxDirDialog dirDialog(nullptr, wxT("Select Video Data Folder"), canvas->GetDirectory(),
                           wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
     if(dirDialog.ShowModal() == wxID_OK) {
@@ -51,14 +51,14 @@ void VideoPlayer::OnOpen(wxCommandEvent &event) {
     }
 }
 
-void VideoPlayer::OnPlay(wxCommandEvent &event) {
+void VideoPlayer::OnPlay(wxCommandEvent &) {
     openButton->Disable();
     stopButton->Enable();
     playButton->Disable();
     canvas->StartPlaying();
 }
 
-void VideoPlayer::OnStop(wxCommandEvent &event) {
+void VideoPlayer::OnStop(wxCommandEvent &) {
     canvas->StopPlaying();
     openButton->Enable();
     stopButton->Disable();
@@ -66,6 +66,6 @@ void VideoPlayer::OnStop(wxCommandEvent &event) {
 
 }
 
-void VideoPlayer::OnClose(wxCloseEvent &event) {
+void VideoPlayer::OnClose(wxCloseEvent &) {
     Destroy();
 }

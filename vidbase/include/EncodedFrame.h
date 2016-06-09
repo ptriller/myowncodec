@@ -18,9 +18,9 @@ public:
 
     virtual ~EncodedFrame();
 
-    const std::uint32_t frameType() const { return _frameType; }
+    std::uint32_t frameType() const { return _frameType; }
 
-    const std::uint64_t timestamp() const { return _timestamp; }
+    std::uint64_t timestamp() const { return _timestamp; }
 
     const std::vector<unsigned char> &data() const { return _data; }
 

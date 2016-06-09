@@ -26,14 +26,14 @@ void PmfReader::Open() {
 void PmfReader::Open(const std::string &filename) {
     filestream.open(filename, std::ios::binary | std::ios::in);
     // Validate Header
-    for(int i = 0; i < MAGIC_LEN;++i) {
+    for(size_t i = 0; i < MAGIC_LEN;++i) {
         if(filestream.get() != MAGIC[i]) {
             std::cerr << "Header Wrong at position " << i << std::endl;
             throw 1;
         }
     }
-    std::uint8_t majorVersion = filestream.get();
-    std::uint8_t minorVersion = filestream.get();
+    std::uint8_t majorVersion = (uint8_t) filestream.get();
+    std::uint8_t minorVersion = (uint8_t) filestream.get();
     std::cout << "Reading PMF File Version " << (int)majorVersion << '.' << (int)minorVersion << std::endl;
     std::uint32_t metaDataSize = read_stream<std::uint32_t>(filestream);
     std::cout << "Metadata size " << metaDataSize  << std::endl;

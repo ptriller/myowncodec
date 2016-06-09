@@ -46,8 +46,8 @@ namespace {
         writeUint32(of, 2835); // 46
         writeUint32(of, 0); // 50
         writeUint32(of, 0); // 54
-        for (std::uint32_t y = frame.height() - 1; y >= 0; --y) {
-            for (int x = 0; x < frame.width(); ++x) {
+        for (std::int32_t y = frame.height() - 1; y >= 0; --y) {
+            for (std::uint32_t x = 0; x < frame.width(); ++x) {
                 const unsigned char *pixel = frame.get(x, y);
                 of << pixel[2]; // B
                 of << pixel[1]; // G

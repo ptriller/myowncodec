@@ -32,11 +32,11 @@ wxBEGIN_EVENT_TABLE(VideoCanvas, wxPanel)
 wxEND_EVENT_TABLE()
 
 VideoCanvas::VideoCanvas(wxWindow *parent) :
-        timer(this, TIMER_ID), wxPanel(parent), image(new wxImage()) {
+        wxPanel(parent), timer(this, TIMER_ID), image(new wxImage()) {
     SetBackgroundColour(wxColour(255, 0, 0));
 }
 
-void VideoCanvas::paintEvent(wxPaintEvent &evt) {
+void VideoCanvas::paintEvent(wxPaintEvent &) {
     wxPaintDC dc(this);
     render(dc);
 }
@@ -78,12 +78,12 @@ void VideoCanvas::SetImage(VideoFrame *videoFrame) {
 using namespace std::chrono;
 
 
-void VideoCanvas::OnTimer(wxTimerEvent &event) {
+void VideoCanvas::OnTimer(wxTimerEvent &) {
     if(!reader) {
         reader.reset(new DirectoryReader(std::string(directory)));
         nextFrame = reader->nextFrame();
     }
-    std::int64_t time =  duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
+    std::uint64_t time = (uint64_t) duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
 
     while(time > nextFrame->timestamp()) {
         frame.reset(nextFrame.release());

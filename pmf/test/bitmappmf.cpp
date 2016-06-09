@@ -18,6 +18,8 @@ int main(int argc, const char *argv[]) {
     writer.Open(argv[2]);
     for (std::unique_ptr<VideoFrame> frame(reader.nextFrame()); frame; frame = reader.nextFrame()) {
         std::cerr << frame->timestamp() << std::endl;
+        std::vector<unsigned char> buf(frame->width()*frame->height()+2* sizeof(std::uint32_t));
+        std::co
         EncodedFrame outputFrame(1,frame->timestamp(),
                                  std::vector<unsigned char>(frame->buffer(0,0),
         frame->buffer(0,0)+frame->width()*frame->height()));
