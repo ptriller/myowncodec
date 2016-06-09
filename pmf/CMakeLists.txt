@@ -13,3 +13,6 @@ target_link_libraries(pmf vidbase)
 
 add_executable(bitmappmf test/bitmappmf.cpp)
 target_link_libraries(bitmappmf pmf jpegreader)
+
+add_executable(pmfreader test/pmfreader.cpp)
+target_link_libraries(pmfreader pmf)

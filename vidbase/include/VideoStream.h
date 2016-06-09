@@ -5,7 +5,7 @@
  *      Author: ptriller
  */
 
-#ifndef INPUTSTREAM_H_
+#ifndef VIDEOSTREAM_H_
 #define VIDEOSTREAM_H_
 
 #include <memory>
@@ -22,4 +22,4 @@ public:
 };
 
 
-#endif /* INPUTSTREAM_H_ */
+#endif /* VIDEOSTREAM_H_ */

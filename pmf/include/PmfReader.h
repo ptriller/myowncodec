@@ -6,6 +6,9 @@
 #define MYOWNCODEC_PMFREADER_H
 #include "VideoStream.h"
 #include <fstream>
+#include <memory>
+
+class EncodedFrame;
 
 class PmfReader {
 public:
@@ -16,7 +19,7 @@ public:
     void Open(const std::string &filename);
     void Open();
     void Close();
-
+    std::unique_ptr<EncodedFrame> nextFrame();
 private:
     std::ifstream filestream;
     const std::string filename;

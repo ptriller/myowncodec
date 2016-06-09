@@ -28,7 +28,7 @@ public:
     virtual ~PmfWriter();
 
 private:
-    std::filebuf filestream;
+    std::fstream filestream;
     const std::string filename;
 };
 
