@@ -5,6 +5,7 @@
 #include "PmfDecoder.h"
 #include "EncodedFrame.h"
 #include "VideoFrame.h"
+#include "netutil.h"
 
 PmfDecoder::PmfDecoder() { }
 
@@ -26,5 +27,11 @@ void PmfDecoder::Close() {
 
 std::unique_ptr<VideoFrame> PmfDecoder::nextFrame() {
     std::unique_ptr<EncodedFrame> frame = reader.nextFrame();
-    return std::unique_ptr<VideoFrame>(new VideoFrame(frame->));
+    auto it = frame->data().begin();
+    std::uint32_t  width = read_iterator<std::uint32_t>(it);
+    std::uint32_t  height = read_iterator<std::uint32_t>(it);
+    return std::unique_ptr<VideoFrame>(new VideoFrame(width,
+                                                      height,
+                                                      frame->timestamp(),
+                                                      std::vector<unsigned char>(it, frame->data().end())));
 }

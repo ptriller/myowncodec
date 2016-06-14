@@ -5,7 +5,7 @@
 
 EncodedFrame::EncodedFrame(std::uint32_t frameType, std::uint64_t timestamp,
                            std::vector<unsigned char> &&data) :
-        _frameType(frameType), _timestamp(timestamp), _data(data) {
+        _frameType(frameType), _timestamp(timestamp), _data(std::move(data)) {
 }
 
 EncodedFrame::~EncodedFrame() {

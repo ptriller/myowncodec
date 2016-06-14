@@ -6,6 +6,7 @@
 #include "DirectoryReader.h"
 #include "VideoFrame.h"
 #include "EncodedFrame.h"
+#include "netutil.h"
 #include <iostream>
 
 int main(int argc, const char *argv[]) {
@@ -18,11 +19,12 @@ int main(int argc, const char *argv[]) {
     writer.Open(argv[2]);
     for (std::unique_ptr<VideoFrame> frame(reader.nextFrame()); frame; frame = reader.nextFrame()) {
         std::cerr << frame->timestamp() << std::endl;
-        std::vector<unsigned char> buf(frame->width()*frame->height()+2* sizeof(std::uint32_t));
-        std::co
-        EncodedFrame outputFrame(1,frame->timestamp(),
-                                 std::vector<unsigned char>(frame->buffer(0,0),
-        frame->buffer(0,0)+frame->width()*frame->height()));
+        std::vector<unsigned char> buf(frame->width()*frame->height()*3+2* sizeof(std::uint32_t));
+        auto it = buf.begin();
+        write_iterator(it, frame->width());
+        write_iterator(it, frame->height());
+        std::copy(frame->buffer(0,0), frame->buffer(0,0)+frame->width()*frame->height()*3, it);
+        EncodedFrame outputFrame(1,frame->timestamp(), std::move(buf));
         writer.WriteFrame(outputFrame);
     }
     writer.Close();

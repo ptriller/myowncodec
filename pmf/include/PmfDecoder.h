@@ -11,7 +11,7 @@
 #include <cstdint>
 
 class PmfDecoder: public VideoStream {
-
+public:
     PmfDecoder();
 
     PmfDecoder(const std::string &filename);
