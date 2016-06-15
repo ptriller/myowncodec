@@ -13,7 +13,7 @@
 #include <chrono>
 
 class VideoFrame;
-class DirectoryReader;
+class PmfDecoder;
 
 class VideoCanvas : public wxPanel {
 public:
@@ -27,9 +27,9 @@ public:
 
     void render(wxDC &dc);
 
-    void SetDirectory(const wxString &str);
+    void SetFile(const wxString &str);
 
-    wxString GetDirectory() { return directory; }
+    wxString GetFile() { return file; }
 
     void StartPlaying();
 
@@ -44,9 +44,9 @@ private:
     std::unique_ptr<wxBitmap> resized;
     std::unique_ptr<VideoFrame> frame;
     std::unique_ptr<VideoFrame> nextFrame;
-    std::unique_ptr<DirectoryReader> reader;
+    std::unique_ptr<PmfDecoder> reader;
     std::chrono::time_point<std::chrono::high_resolution_clock> start;
-    wxString directory;
+    wxString file;
 
 DECLARE_EVENT_TABLE()
 

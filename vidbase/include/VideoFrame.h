@@ -82,6 +82,8 @@ public:
         return &_data[3 * (y * _width + x)];
     }
 
+    std::vector<unsigned char> &data() { return _data; }
+
 private:
     const std::uint32_t _width;
     const std::uint32_t _height;

@@ -1,6 +1,6 @@
 #include "VideoCanvas.h"
 #include "VideoFrame.h"
-#include "DirectoryReader.h"
+#include "PmfDecoder.h"
 #include <chrono>
 #include <cstdint>
 enum {
@@ -80,7 +80,8 @@ using namespace std::chrono;
 
 void VideoCanvas::OnTimer(wxTimerEvent &) {
     if(!reader) {
-        reader.reset(new DirectoryReader(std::string(directory)));
+        reader.reset(new PmfDecoder(std::string(file)));
+        reader->Open();
         nextFrame = reader->nextFrame();
     }
     std::uint64_t time = (uint64_t) duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
@@ -100,9 +101,9 @@ void VideoCanvas::OnTimer(wxTimerEvent &) {
     }
 }
 
-void VideoCanvas::SetDirectory(const wxString &str) {
+void VideoCanvas::SetFile(const wxString &str) {
     StopPlaying();
-    directory = str;
+    file = str;
     reader.reset(nullptr);
 }
 

@@ -14,5 +14,6 @@ int main(int argc, const char *argv[]) {
     reader.Open();
     for(std::unique_ptr<VideoFrame> frame(reader.nextFrame().release()); frame; frame.reset(reader.nextFrame().release())) {
         std::cout << "Frame: (" << frame->width() << "," << frame->height() << ") " << frame->timestamp() <<  std::endl;
+        std::cout << "Data: " << frame->data().size() << std::endl;
     }
 }

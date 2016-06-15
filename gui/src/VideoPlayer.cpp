@@ -43,10 +43,9 @@ VideoPlayer::VideoPlayer(const wxString &title, const wxPoint &pos, const wxSize
 }
 
 void VideoPlayer::OnOpen(wxCommandEvent &) {
-    wxDirDialog dirDialog(nullptr, wxT("Select Video Data Folder"), canvas->GetDirectory(),
-                          wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
-    if(dirDialog.ShowModal() == wxID_OK) {
-        canvas->SetDirectory(dirDialog.GetPath());
+    wxFileDialog fileDialog(nullptr, "Select PMF file");
+    if(fileDialog.ShowModal() == wxID_OK) {
+        canvas->SetFile(fileDialog.GetPath());
         playButton->Enable(true);
     }
 }
