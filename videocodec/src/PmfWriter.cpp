@@ -16,10 +16,7 @@
 
 using namespace pmf;
 
-PmfWriter::PmfWriter() {
-}
-
-PmfWriter::PmfWriter(const std::string &file): filename(file) {
+PmfWriter::PmfWriter(const std::string &type, const std::string &file): type(type), filename(file) {
 }
 
 
@@ -33,6 +30,8 @@ void PmfWriter::Open(const std::string &fname) {
     //Write Version Bytes.
     filestream.put(VERSION_MAJOR);
     filestream.put(VERSION_MINOR);
+    write_stream(filestream, (std::uint16_t)type.size());
+    for(char c: type) filestream.put(c);
     // Metadata Block size... 0 for now
     write_stream(filestream, (std::uint32_t)0);
 }
@@ -47,7 +46,7 @@ void PmfWriter::WriteFrame(const EncodedFrame &frame) {
     write_stream(filestream, frame.timestamp());
     write_stream(filestream, frame.frameType());
     write_stream(filestream, (std::uint32_t) frame.data().size());
-    for(unsigned char c: frame.data()) filestream.put(c);
+    for(std::uint8_t c: frame.data()) filestream.put(c);
 }
 
 PmfWriter::~PmfWriter() {

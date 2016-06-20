@@ -14,8 +14,7 @@ class EncodedFrame;
 class PmfWriter {
 
 public:
-    PmfWriter();
-    PmfWriter(const std::string &file);
+    PmfWriter(const std::string &type, const std::string &file = "");
 
     void Open() { Open(filename); };
 
@@ -29,6 +28,7 @@ public:
 
 private:
     std::fstream filestream;
+    const std::string type;
     const std::string filename;
 };
 

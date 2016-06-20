@@ -7,7 +7,9 @@
 #include "VideoStream.h"
 #include <fstream>
 #include <memory>
-
+#include <string>
+#include <vector>
+#include <cstdint>
 class EncodedFrame;
 
 class PmfReader {
@@ -19,10 +21,14 @@ public:
     void Open(const std::string &filename);
     void Open();
     void Close();
+    const std::string type() const { return _type; };
+    const std::vector<std::uint8_t> &metadata() const { return _metadata; };
     std::unique_ptr<EncodedFrame> nextFrame();
 private:
     std::ifstream filestream;
     const std::string filename;
+    std::string _type;
+    std::vector<std::uint8_t> _metadata;
 };
 
 

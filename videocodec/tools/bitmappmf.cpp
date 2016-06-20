@@ -15,11 +15,11 @@ int main(int argc, const char *argv[]) {
         return 1;
     }
     DirectoryReader reader(argv[1]);
-    PmfWriter writer;
+    PmfWriter writer("bitmap");
     writer.Open(argv[2]);
     for (std::unique_ptr<VideoFrame> frame(reader.nextFrame()); frame; frame = reader.nextFrame()) {
         std::cerr << frame->timestamp() << std::endl;
-        std::vector<unsigned char> buf(frame->width()*frame->height()*3+2* sizeof(std::uint32_t));
+        std::vector<std::uint8_t> buf(frame->width()*frame->height()*3+2* sizeof(std::uint32_t));
         auto it = buf.begin();
         write_iterator(it, frame->width());
         write_iterator(it, frame->height());

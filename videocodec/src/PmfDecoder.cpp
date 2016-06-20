@@ -6,6 +6,12 @@
 #include "EncodedFrame.h"
 #include "VideoFrame.h"
 #include "netutil.h"
+#include <unordered_map>
+
+namespace {
+    std::unordered_map<std::string, std::function<FrameDecoder *()>> decoderMap;
+}
+
 
 PmfDecoder::PmfDecoder() { }
 
@@ -15,6 +21,7 @@ PmfDecoder::~PmfDecoder() { }
 
 void PmfDecoder::Open() {
     reader.Open();
+
 }
 
 void PmfDecoder::Open(const std::string &filename) {
@@ -34,7 +41,13 @@ std::unique_ptr<VideoFrame> PmfDecoder::nextFrame() {
         return std::unique_ptr<VideoFrame>(new VideoFrame(width,
                                                           height,
                                                           frame->timestamp(),
-                                                          std::vector<unsigned char>(it, frame->data().end())));
+                                                          std::vector<std::uint8_t>(it, frame->data().end())));
     }
     return std::unique_ptr<VideoFrame>();
+}
+
+
+
+void PmfDecoder::registerDecoder(const std::string &type, const std::function<FrameDecoder *()> &function) {
+    decoderMap.insert(std::make_pair(type, function));
 }

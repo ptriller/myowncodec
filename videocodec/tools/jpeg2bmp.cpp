@@ -5,15 +5,15 @@
 
 namespace {
     void writeUint32(std::ofstream &of, std::uint32_t value) {
-        of << (unsigned char) (value & 0x000000ff);
-        of << (unsigned char) ((value & 0x0000ff00) >> 8);
-        of << (unsigned char) ((value & 0x00ff0000) >> 16);
-        of << (unsigned char) ((value & 0xff000000) >> 24);
+        of << (std::uint8_t) (value & 0x000000ff);
+        of << (std::uint8_t) ((value & 0x0000ff00) >> 8);
+        of << (std::uint8_t) ((value & 0x00ff0000) >> 16);
+        of << (std::uint8_t) ((value & 0xff000000) >> 24);
     }
 
     void writeUint16(std::ofstream &of, std::uint16_t value) {
-        of << (unsigned char) (value & 0x000000ff);
-        of << (unsigned char) ((value & 0x0000ff00) >> 8);
+        of << (std::uint8_t) (value & 0x000000ff);
+        of << (std::uint8_t) ((value & 0x0000ff00) >> 8);
     }
 
     bool writeBMP(const VideoFrame &frame, const char *filename) {
@@ -48,13 +48,13 @@ namespace {
         writeUint32(of, 0); // 54
         for (std::int32_t y = frame.height() - 1; y >= 0; --y) {
             for (std::uint32_t x = 0; x < frame.width(); ++x) {
-                const unsigned char *pixel = frame.get(x, y);
+                const std::uint8_t *pixel = frame.get(x, y);
                 of << pixel[2]; // B
                 of << pixel[1]; // G
                 of << pixel[0]; // R
             }
             for (std::uint32_t p = 0; p < padding; ++p) {
-                of << (unsigned char) 0;
+                of << (std::uint8_t) 0;
             }
         }
         of.close();

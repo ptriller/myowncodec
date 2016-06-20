@@ -1,6 +1,6 @@
 #include "VideoCanvas.h"
-#include "VideoFrame.h"
-#include "PmfDecoder.h"
+#include "../../videocodec/include/VideoFrame.h"
+#include "../../videocodec/include/PmfDecoder.h"
 #include <chrono>
 #include <cstdint>
 enum {

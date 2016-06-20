@@ -7,8 +7,12 @@
 
 #include "VideoStream.h"
 #include "PmfReader.h"
+#include "FrameDecoder.h"
 #include <functional>
 #include <cstdint>
+#include <memory>
+#include <string>
+
 
 class PmfDecoder: public VideoStream {
 public:
@@ -26,9 +30,10 @@ public:
 
     std::unique_ptr<VideoFrame> nextFrame() override;
 
-    static void registerDecoder(std::uint32_t frameType, const std::function<VideoFrame *(EncodedFrame *)> &function);
+    static void registerDecoder(const std::string &type, const std::function<FrameDecoder *()> &function);
 private:
     PmfReader reader;
+    std::unique_ptr<FrameDecoder *> decoder;
 };
 
 

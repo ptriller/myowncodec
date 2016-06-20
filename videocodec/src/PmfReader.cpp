@@ -8,6 +8,7 @@
 #include "pmf.h"
 
 #include <iostream>
+#include <sstream>
 using namespace pmf;
 
 PmfReader::PmfReader() {}
@@ -35,6 +36,10 @@ void PmfReader::Open(const std::string &filename) {
     std::uint8_t majorVersion = (uint8_t) filestream.get();
     std::uint8_t minorVersion = (uint8_t) filestream.get();
     std::cout << "Reading PMF File Version " << (int)majorVersion << '.' << (int)minorVersion << std::endl;
+    uint16_t length = read_stream<std::uint16_t>(filestream);
+    std::stringstream inputStream;
+    for(int i = 0; i < length;++i) inputStream.put(filestream.get());
+    std::cout << "Format is: "  << inputStream.str() << std::endl;
     std::uint32_t metaDataSize = read_stream<std::uint32_t>(filestream);
     std::cout << "Metadata size " << metaDataSize  << std::endl;
     filestream.ignore(metaDataSize);
@@ -63,7 +68,7 @@ std::unique_ptr<EncodedFrame> PmfReader::nextFrame() {
     std::uint64_t timestamp = read_stream<std::uint64_t>(filestream);
     std::uint32_t frameType = read_stream<std::uint32_t>(filestream);
     std::uint32_t dataSize = read_stream<std::uint32_t>(filestream);
-    std::vector<unsigned char> data(dataSize);
+    std::vector<std::uint8_t> data(dataSize);
     filestream.read((char *) &data[0], data.size());
     return std::unique_ptr<EncodedFrame>(new EncodedFrame(frameType, timestamp, std::move(data)));
 }

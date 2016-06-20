@@ -8,7 +8,7 @@
 #ifndef JPEGREADER_SRC_JPEGREADER_H_
 #define JPEGREADER_SRC_JPEGREADER_H_
 
-#include <VideoFrame.h>
+#include "VideoFrame.h"
 #include <string>
 #include <memory>
 #include <stdexcept>
