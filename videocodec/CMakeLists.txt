@@ -25,9 +25,9 @@ add_executable(pmfreader tools/pmfreader.cpp)
 target_include_directories(dirlist PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(pmfreader videocodec)
 
-add_executable(bitmappmf tools/bitmappmf.cpp)
+add_executable(encodepmf tools/encodepmf.cpp)
 target_include_directories(dirlist PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(bitmappmf videocodec)
+target_link_libraries(encodepmf videocodec)
 
 # TESTS
 

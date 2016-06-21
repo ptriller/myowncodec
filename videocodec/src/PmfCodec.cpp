@@ -7,9 +7,11 @@
 #include "VideoFrame.h"
 #include "netutil.h"
 #include <unordered_map>
+#include "PmfEncoder.h"
 
 namespace {
     std::unordered_map<std::string, std::function<FrameDecoder *()>> decoderMap;
+    std::unordered_map<std::string, std::function<FrameEncoder *()>> encoderMap;
 }
 
 
@@ -48,6 +50,36 @@ std::unique_ptr<VideoFrame> PmfDecoder::nextFrame() {
 
 
 
+PmfEncoder::PmfEncoder(const std::string &type, const std::string &filename): writer(type, filename) {
+    auto factoryIt = encoderMap.find(type);
+    if(factoryIt == encoderMap.end()) throw 1;
+    encoder.reset(factoryIt->second());
+}
+
+PmfEncoder::~PmfEncoder() { }
+
+void PmfEncoder::Open() {
+    writer.Open();
+}
+
+
+void PmfEncoder::Open(const std::string &filename) {
+    writer.Open(filename);
+}
+
+
+void PmfEncoder::Close() {
+    writer.Close();
+}
+
+void PmfEncoder::nextFrame(const VideoFrame &frame) {
+    writer.WriteFrame(*encoder->encodeFrame(frame));
+}
+
 void PmfDecoder::registerDecoder(const std::string &type, const std::function<FrameDecoder *()> &function) {
     decoderMap.insert(std::make_pair(type, function));
+}
+
+void PmfEncoder::registerEncoder(const std::string &type, const std::function<FrameEncoder *()> &function) {
+    encoderMap.insert(std::make_pair(type, function));
 }

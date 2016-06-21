@@ -84,6 +84,8 @@ public:
 
     std::vector<std::uint8_t> &data() { return _data; }
 
+    const std::vector<std::uint8_t> &data() const { return _data; }
+
 private:
     const std::uint32_t _width;
     const std::uint32_t _height;

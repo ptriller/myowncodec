@@ -7,7 +7,7 @@
 
 #include "VideoStream.h"
 #include "PmfReader.h"
-#include "FrameDecoder.h"
+#include "FrameCodec.h"
 #include <functional>
 #include <cstdint>
 #include <memory>
