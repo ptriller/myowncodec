@@ -21,5 +21,6 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wno-long-long -pedantic -
 endif()
 
 add_subdirectory(videocodec)
+add_subdirectory(codec)
 add_subdirectory(gui)
 
