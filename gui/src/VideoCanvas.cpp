@@ -1,6 +1,5 @@
 #include "VideoCanvas.h"
-#include "../../videocodec/include/VideoFrame.h"
-#include "../../videocodec/include/PmfDecoder.h"
+#include "jpegreader.h"
 #include <chrono>
 #include <cstdint>
 enum {
@@ -64,12 +63,12 @@ void VideoCanvas::render(wxDC &dc) {
     }
 }
 
-void VideoCanvas::SetImage(VideoFrame *videoFrame) {
+void VideoCanvas::SetImage(codec::VideoFrame *videoFrame) {
     {
         SectionLock section(lock);
-        this->image.reset(new wxImage(videoFrame->width(),
-                                      videoFrame->height(),
-                                      videoFrame->buffer(0, 0), true));
+        this->image.reset(new wxImage(videoFrame->image().width(),
+                                      videoFrame->image().height(),
+                                      videoFrame->image().data().data(), true));
         resized.reset(new wxBitmap());
     }
     paintNow();
@@ -80,14 +79,13 @@ using namespace std::chrono;
 
 void VideoCanvas::OnTimer(wxTimerEvent &) {
     if(!reader) {
-        reader.reset(new PmfDecoder(std::string(file)));
-        reader->Open();
+        reader.reset(new codec::JpegVideoSource(std::string(source)));
         nextFrame = reader->nextFrame();
     }
     std::uint64_t time = (uint64_t) duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
 
     while(time > nextFrame->timestamp()) {
-        frame.reset(nextFrame.release());
+        frame = std::move(nextFrame);
         nextFrame = reader->nextFrame();
         if(!nextFrame) {
             StartPlaying();
@@ -101,9 +99,9 @@ void VideoCanvas::OnTimer(wxTimerEvent &) {
     }
 }
 
-void VideoCanvas::SetFile(const wxString &str) {
+void VideoCanvas::SetSource(const wxString &str) {
     StopPlaying();
-    file = str;
+    source = str;
     reader.reset(nullptr);
 }
 

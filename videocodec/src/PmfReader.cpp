@@ -38,7 +38,7 @@ void PmfReader::Open(const std::string &filename) {
     std::cout << "Reading PMF File Version " << (int)majorVersion << '.' << (int)minorVersion << std::endl;
     uint16_t length = read_stream<std::uint16_t>(filestream);
     std::stringstream inputStream;
-    for(int i = 0; i < length;++i) inputStream.put(filestream.get());
+    for(int i = 0; i < length;++i) inputStream.put((std::stringstream::char_type)filestream.get());
     std::cout << "Format is: "  << inputStream.str() << std::endl;
     std::uint32_t metaDataSize = read_stream<std::uint32_t>(filestream);
     std::cout << "Metadata size " << metaDataSize  << std::endl;

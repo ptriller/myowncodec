@@ -43,6 +43,10 @@ namespace codec {
 
         std::vector<std::uint8_t> &data() { return _data; };
 
+        std::uint32_t width() const { return _width; }
+
+        std::uint32_t height() const { return _height; }
+
     private:
         std::uint32_t _width;
         std::uint32_t _height;

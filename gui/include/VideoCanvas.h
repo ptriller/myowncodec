@@ -11,15 +11,14 @@
 
 #include <memory>
 #include <chrono>
+#include "codecapi.h"
 
-class VideoFrame;
-class PmfDecoder;
 
 class VideoCanvas : public wxPanel {
 public:
     VideoCanvas(wxWindow *parent);
 
-    void SetImage(VideoFrame *videoFrame);
+    void SetImage(codec::VideoFrame *videoFrame);
 
     void paintEvent(wxPaintEvent &evt);
 
@@ -27,9 +26,9 @@ public:
 
     void render(wxDC &dc);
 
-    void SetFile(const wxString &str);
+    void SetSource(const wxString &str);
 
-    wxString GetFile() { return file; }
+    wxString GetSource() { return source; }
 
     void StartPlaying();
 
@@ -42,11 +41,11 @@ private:
     wxCriticalSection lock;
     std::unique_ptr<wxImage> image;
     std::unique_ptr<wxBitmap> resized;
-    std::unique_ptr<VideoFrame> frame;
-    std::unique_ptr<VideoFrame> nextFrame;
-    std::unique_ptr<PmfDecoder> reader;
+    std::unique_ptr<codec::VideoFrame> frame;
+    std::unique_ptr<codec::VideoFrame> nextFrame;
+    std::unique_ptr<codec::VideoStream> reader;
     std::chrono::time_point<std::chrono::high_resolution_clock> start;
-    wxString file;
+    wxString source;
 
 DECLARE_EVENT_TABLE()
 
