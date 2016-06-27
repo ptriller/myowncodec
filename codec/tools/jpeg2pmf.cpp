@@ -1,10 +1,9 @@
 //
-// Created by ptriller on 08.06.16.
+// Created by ptriller on 27.06.16.
 //
-
-#include "PmfEncoder.h"
-#include "DirectoryReader.h"
-#include "codecs.h"
+#include "bitmapcodec.h"
+#include "jpegreader.h"
+#include "pmf.h"
 #include <iostream>
 
 int main(int argc, const char *argv[]) {
@@ -13,14 +12,14 @@ int main(int argc, const char *argv[]) {
         std::cerr << "Usage: " << argv[0] << " <type> <directory> <outputfile>" << std::endl;
         return 1;
     }
-    DirectoryReader reader(argv[2]);
-    PmfEncoder encoder(argv[1]);
+    codec::JpegVideoSource source(argv[2]);
+    codec::PmfEncoder encoder(argv[1]);
     encoder.Open(argv[3]);
-    for (std::unique_ptr<VideoFrame> frame(reader.nextFrame()); frame; frame = reader.nextFrame()) {
+    for (std::unique_ptr<codec::VideoFrame> frame(source.nextFrame()); frame; frame = source.nextFrame()) {
         std::cerr << frame->timestamp() << std::endl;
         encoder.nextFrame(*frame);
     }
     encoder.Close();
-    reader.Close();
+    source.Close();
     return 0;
 }

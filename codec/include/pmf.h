@@ -47,6 +47,7 @@ namespace codec {
     };
 
 
+
     class PmfWriter {
 
     public:
@@ -66,6 +67,49 @@ namespace codec {
         std::fstream filestream;
         const std::string type;
         const std::string filename;
+    };
+
+
+    class PmfDecoder: public VideoStream {
+    public:
+        PmfDecoder(const std::string &filename = "");
+
+        virtual ~PmfDecoder() { reader.Close(); }
+
+        void Open() { reader.Open(); initialize(); };
+
+        void Open(const std::string &filename) { reader.Open(filename); };
+
+        void Close() override { reader.Close(); initialize(); };
+
+        std::unique_ptr<VideoFrame> nextFrame() override;
+
+        static void registerDecoder(const std::string &type, const std::function<FrameDecoder *()> &function);
+    private:
+        void initialize();
+        PmfReader reader;
+        std::unique_ptr<FrameDecoder> decoder;
+    };
+
+    class PmfEncoder {
+    public:
+
+        PmfEncoder(const std::string &type, const std::string &filename = "");
+
+        ~PmfEncoder() { writer.Close(); }
+
+        void Open() { writer.Open(); };
+
+        void Open(const std::string &filename) { writer.Open(filename); };
+
+        void Close() { writer.Close(); };
+
+        void nextFrame(const VideoFrame &);
+
+        static void registerEncoder(const std::string &type, const std::function<FrameEncoder *()> &function);
+    private:
+        PmfWriter writer;
+        std::unique_ptr<FrameEncoder> encoder;
     };
 }
 

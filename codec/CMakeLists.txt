@@ -12,3 +12,7 @@ add_library(codec ${JPEG_LIBRARIES} ${VIDEOCODEC_SRCS})
 target_include_directories(codec PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(codec PRIVATE ${JPEG_INCLUDE_DIR})
 target_link_libraries(codec ${JPEG_LIBRARIES})
+
+add_executable(jpeg2pmf tools/jpeg2pmf.cpp)
+target_link_libraries(jpeg2pmf codec)
+

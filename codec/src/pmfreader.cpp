@@ -38,7 +38,8 @@ namespace codec {
         uint16_t length = read_stream<std::uint16_t>(filestream);
         std::stringstream inputStream;
         for(int i = 0; i < length;++i) inputStream.put((std::stringstream::char_type)filestream.get());
-        std::cout << "Format is: "  << inputStream.str() << std::endl;
+        _type = inputStream.str();
+        std::cout << "Format is: "  << _type << std::endl;
         std::uint32_t metaDataSize = read_stream<std::uint32_t>(filestream);
         std::cout << "Metadata size " << metaDataSize  << std::endl;
         filestream.ignore(metaDataSize);
@@ -68,7 +69,7 @@ namespace codec {
         std::uint32_t frameType = read_stream<std::uint32_t>(filestream);
         std::uint32_t dataSize = read_stream<std::uint32_t>(filestream);
         std::vector<std::uint8_t> data(dataSize);
-        filestream.read((char *) &data[0], data.size());
+        filestream.read((char *) data.data(), data.size());
         return std::unique_ptr<EncodedFrame>(new EncodedFrame(frameType, timestamp, std::move(data)));
     }
 

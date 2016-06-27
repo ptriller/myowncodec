@@ -17,7 +17,7 @@ namespace codec {
         VideoFrame(std::uint64_t timestamp, std::unique_ptr<RGBImage> image)
                 :_timestamp(timestamp),_image(std::move(image)) {}
 
-        std::uint64_t timestamp() { return _timestamp; }
+        std::uint64_t timestamp() const { return _timestamp; }
 
         RGBImage &image() { return *_image; }
         const RGBImage &image() const { return *_image; }
@@ -27,11 +27,22 @@ namespace codec {
 
     };
 
+    class VideoStream {
+    public:
+        virtual ~VideoStream() {};
+
+        virtual void Close() = 0;
+
+        virtual std::unique_ptr<VideoFrame> nextFrame() = 0;
+
+    };
+
+
     class EncodedFrame {
     public:
         EncodedFrame(std::uint32_t frameType, std::uint64_t timestamp,
-                     std::vector<std::uint8_t> &&data): _frameType(frameType),
-            _timestamp(timestamp), _data(std::move(data)) {  }
+                     std::vector<std::uint8_t> &&data) :
+                _frameType(frameType), _timestamp(timestamp), _data(std::move(data)) {}
 
         std::uint32_t frameType() const { return _frameType; }
 
@@ -45,15 +56,17 @@ namespace codec {
         std::vector<std::uint8_t> _data;
     };
 
-
-    class VideoStream {
+    class FrameDecoder {
     public:
-        virtual ~VideoStream() {};
+        virtual ~FrameDecoder() {}
+        virtual std::unique_ptr<VideoFrame> decodeFrame(const EncodedFrame &) = 0;
 
-        virtual void Close() = 0;
+    };
 
-        virtual std::unique_ptr<VideoFrame> nextFrame() = 0;
-
+    class FrameEncoder {
+    public:
+        virtual ~FrameEncoder() {}
+        virtual std::unique_ptr<EncodedFrame> encodeFrame(const VideoFrame &) = 0;
     };
 
 }

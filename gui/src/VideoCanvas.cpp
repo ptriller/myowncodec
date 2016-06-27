@@ -1,5 +1,5 @@
 #include "VideoCanvas.h"
-#include "jpegreader.h"
+#include "pmf.h"
 #include <chrono>
 #include <cstdint>
 enum {
@@ -79,7 +79,9 @@ using namespace std::chrono;
 
 void VideoCanvas::OnTimer(wxTimerEvent &) {
     if(!reader) {
-        reader.reset(new codec::JpegVideoSource(std::string(source)));
+        auto decoder = new codec::PmfDecoder(std::string(source));
+        reader.reset(decoder);
+        decoder->Open();
         nextFrame = reader->nextFrame();
     }
     std::uint64_t time = (uint64_t) duration_cast< milliseconds >(high_resolution_clock::now() - start).count();
