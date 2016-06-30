@@ -5,8 +5,11 @@
 #include "jpegreader.h"
 #include "pmf.h"
 #include <iostream>
-
+#include "ppeg.h"
 int main(int argc, const char *argv[]) {
+    ppeg::ComponentBitmap bitmap, bitmat2;
+
+    bitmap = std::move(bitmat2);
     register_bitmap_codec();
     if (argc != 4) {
         std::cerr << "Usage: " << argv[0] << " <type> <directory> <outputfile>" << std::endl;

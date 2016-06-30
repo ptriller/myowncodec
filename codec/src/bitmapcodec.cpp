@@ -2,6 +2,7 @@
 // Created by ptriller on 27.06.16.
 //
 #include "bitmapcodec.h"
+#include "ppeg.h"
 #include "pmf.h"
 #include "codecapi.h"
 #include "netutil.h"
